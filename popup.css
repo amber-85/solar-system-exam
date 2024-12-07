@@ -93,7 +93,7 @@
 
 .planet__info__frame{
     border-top:1px solid #f7f4f9;
-    border-bottom:1px solid #f7f4f9;
+    /* border-bottom:1px solid #f7f4f9; */
     display: grid;
     grid-template: repeat(2,1fr)/repeat(2,1fr);
     gap:1rem;
@@ -101,11 +101,11 @@
 }
 
 
-.om__title,.km__title,.max__title,.min__title,.moon__title{
+.cm__title,.km__title,.max__title,.min__title,.moon__title{
     font-weight: 600;
 
 }
-.om__text,.km__text,.max__text,.min__text,.moon__list{
+.cm__text,.km__text,.max__text,.min__text,.moon__list{
     font-weight: 100;
 
 }

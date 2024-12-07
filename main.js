@@ -1,8 +1,10 @@
 
-// use DOM to create variables to edit HTML elements.
-// create variable for each plantet and panet rings on popup rings
+import { getPlanetBlob } from "./fetch.js";
 
-    const planetSun=document.querySelector("aside.sun");
+
+// use DOM to create variables to edit HTML elements.
+
+    const planetSun=document.querySelector(".sun");
     const planetMercury=document.querySelector(".mercury");
     const planetVenus=document.querySelector(".venus")  ;
     const planetEarth=document.querySelector(".earth");
@@ -15,81 +17,46 @@
     const closeBtn=document.querySelector(".close__button");
     const planetSolid=document.querySelector(".planet__solid");
     const planetInnerRing=document.querySelector(".planet__ring--inner");
-    const planetOuterRing=document.querySelector(".planet__ring--outer")
-
-
-//create variable for each elements to visualize the description of each planet fetched from API
+    const planetOuterRing=document.querySelector(".planet__ring--outer");
 
     const planetMoonsUl=document.querySelector(".moon__list");
     const planetName=document.querySelector(".planet__name");
     const planetLatinName=document.querySelector(".planet__latin");
     const planetIntro=document.querySelector(".planet__intro");
-    const planetCircumference=document.querySelector(".om__text");
+    const planetCircumference=document.querySelector(".cm__text");
     const planetMaxTemp=document.querySelector(".max__text");
     const planetMinTemp=document.querySelector(".min__text");
     const planetDistance=document.querySelector(".km__text");
-  
-
-    
 
 
+    // create function getPlanetData to input planet data fetched from API in each html element
+
+    const getPlanetData=(index)=> getPlanetBlob(index)
+                .then(values=>{
+                    planetName.innerHTML=values.name;
+                    planetLatinName.innerHTML=values.latinName;
+                    planetIntro.innerHTML=values.desc;
+                    planetCircumference.innerHTML=`${values.circumference} km`;
+                    planetMaxTemp.innerHTML=`${values.temp['day']} C`;
+                    planetMinTemp.innerHTML=`${values.temp['night']} C`;
+                    planetDistance.innerHTML=`${values.distance} km`;
+                    values.moons.forEach(element => {
+                        let moonListItem=document.createElement("li");
+                        moonListItem.textContent=element;
+                        planetMoonsUl.appendChild(moonListItem);
+                    });
+                })
 
 
-// const getPlanetData=(index,property)=>
-//     fetch ("https://n5n3eiyjb0.execute-api.eu-north-1.amazonaws.com/keys",{
-// method:'POST'})
-// .then(res => res.json())
-// .then(dat =>{
-//             return fetch("https://n5n3eiyjb0.execute-api.eu-north-1.amazonaws.com/bodies",{
-//                 method:'GET',
-//                 headers:{'x-zocom':dat.key}        
-//             })
-//         }).then(jSon =>
-//             jSon.json())
-//             .then(tex =>{   
-//                 const planet=tex.bodies[index];
-//                 return  planet[property];
-//             })
-//             .then(values=>{
-//                 const
-//             })
-           
-const getPlanetData=(index)=>
-    fetch ("https://n5n3eiyjb0.execute-api.eu-north-1.amazonaws.com/keys",{
-method:'POST'})
-.then(res => res.json())
-.then(dat =>{
-            return fetch("https://n5n3eiyjb0.execute-api.eu-north-1.amazonaws.com/bodies",{
-                method:'GET',
-                headers:{'x-zocom':dat.key}        
-            })
-        }).then(jSon =>
-            jSon.json())
-            .then(tex =>{   
-            //    console.log(tex.bodies[index]);
-                return tex.bodies[index];         
-    }) 
-            .then(values=>{
-                planetName.innerHTML=values.name;
-                planetLatinName.innerHTML=values.latinName;
-                planetIntro.innerHTML=values.desc;
-                planetCircumference.innerHTML=`${values.circumference} km`;
-                planetMaxTemp.innerHTML=`${values.temp['day']} C`;
-                planetMinTemp.innerHTML=`${values.temp['night']} C`;
-                planetDistance.innerHTML=`${values.distance} km`;
-                values.moons.forEach(element => {
-                    let moonListItem=document.createElement("li");
-                    moonListItem.textContent=element;
-                    planetMoonsUl.appendChild(moonListItem);
-                });
-            })
-
+// create close button by adding eventlistener and to reset the list of moon after close the popup page
 
 closeBtn.addEventListener('click',()=>{
     popupPage.style.display="none";
     planetMoonsUl.innerHTML="";
     })
 
+
+// using eventlistener to change the display of popup page to 'block' and the style of planet and planet rings to suit each planet
 
 planetSun.addEventListener("click",()=>{
     popupPage.style.display="block";
@@ -127,7 +94,6 @@ planetEarth.addEventListener("click",()=>{
     planetOuterRing.style.backgroundColor="#428ED4";
     getPlanetData(3)
 })
-
 
 planetMars.addEventListener("click",()=>{
     popupPage.style.display="block";
